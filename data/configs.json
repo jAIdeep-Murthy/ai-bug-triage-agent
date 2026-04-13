@@ -1,0 +1,107 @@
+[
+  {
+    "environment": "prod",
+    "id": "CFG-0001",
+    "name": "auth.yaml",
+    "service": "auth",
+    "text": "# CFG-0001 synthetic config example\nservice: auth\nenvironment: prod\ntimeout_ms: 2112\nretry_policy: exponential\npool_max: 11\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "staging",
+    "id": "CFG-0002",
+    "name": "payments.yaml",
+    "service": "payments",
+    "text": "# CFG-0002 synthetic config example\nservice: payments\nenvironment: staging\ntimeout_ms: 6636\nretry_policy: fixed\npool_max: 5\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "prod",
+    "id": "CFG-0003",
+    "name": "search.yaml",
+    "service": "search",
+    "text": "# CFG-0003 synthetic config example\nservice: search\nenvironment: prod\ntimeout_ms: 6975\nretry_policy: exponential\npool_max: 40\nfeature_flags:\n  use_new_flow: true\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "prod",
+    "id": "CFG-0004",
+    "name": "frontend.yaml",
+    "service": "frontend",
+    "text": "# CFG-0004 synthetic config example\nservice: frontend\nenvironment: prod\ntimeout_ms: 5790\nretry_policy: fixed\npool_max: 18\nfeature_flags:\n  use_new_flow: true\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "prod",
+    "id": "CFG-0005",
+    "name": "frontend.yaml",
+    "service": "frontend",
+    "text": "# CFG-0005 synthetic config example\nservice: frontend\nenvironment: prod\ntimeout_ms: 4829\nretry_policy: exponential\npool_max: 47\nfeature_flags:\n  use_new_flow: true\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "staging",
+    "id": "CFG-0006",
+    "name": "billing.yaml",
+    "service": "billing",
+    "text": "# CFG-0006 synthetic config example\nservice: billing\nenvironment: staging\ntimeout_ms: 6264\nretry_policy: fixed\npool_max: 6\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "prod",
+    "id": "CFG-0007",
+    "name": "frontend.yaml",
+    "service": "frontend",
+    "text": "# CFG-0007 synthetic config example\nservice: frontend\nenvironment: prod\ntimeout_ms: 6470\nretry_policy: fixed\npool_max: 40\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "dev",
+    "id": "CFG-0008",
+    "name": "notifications.yaml",
+    "service": "notifications",
+    "text": "# CFG-0008 synthetic config example\nservice: notifications\nenvironment: dev\ntimeout_ms: 6306\nretry_policy: exponential\npool_max: 8\nfeature_flags:\n  use_new_flow: true\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "dev",
+    "id": "CFG-0009",
+    "name": "notifications.yaml",
+    "service": "notifications",
+    "text": "# CFG-0009 synthetic config example\nservice: notifications\nenvironment: dev\ntimeout_ms: 2071\nretry_policy: fixed\npool_max: 39\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "prod",
+    "id": "CFG-0010",
+    "name": "auth.yaml",
+    "service": "auth",
+    "text": "# CFG-0010 synthetic config example\nservice: auth\nenvironment: prod\ntimeout_ms: 1728\nretry_policy: fixed\npool_max: 27\nfeature_flags:\n  use_new_flow: true\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "staging",
+    "id": "CFG-0011",
+    "name": "search.yaml",
+    "service": "search",
+    "text": "# CFG-0011 synthetic config example\nservice: search\nenvironment: staging\ntimeout_ms: 6570\nretry_policy: exponential\npool_max: 8\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "staging",
+    "id": "CFG-0012",
+    "name": "notifications.yaml",
+    "service": "notifications",
+    "text": "# CFG-0012 synthetic config example\nservice: notifications\nenvironment: staging\ntimeout_ms: 1060\nretry_policy: exponential\npool_max: 27\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "dev",
+    "id": "CFG-0013",
+    "name": "billing.yaml",
+    "service": "billing",
+    "text": "# CFG-0013 synthetic config example\nservice: billing\nenvironment: dev\ntimeout_ms: 2068\nretry_policy: exponential\npool_max: 35\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "staging",
+    "id": "CFG-0014",
+    "name": "frontend.yaml",
+    "service": "frontend",
+    "text": "# CFG-0014 synthetic config example\nservice: frontend\nenvironment: staging\ntimeout_ms: 5028\nretry_policy: fixed\npool_max: 15\nfeature_flags:\n  use_new_flow: true\nvalidation:\n  fail_on_missing_secrets: true\n"
+  },
+  {
+    "environment": "staging",
+    "id": "CFG-0015",
+    "name": "billing.yaml",
+    "service": "billing",
+    "text": "# CFG-0015 synthetic config example\nservice: billing\nenvironment: staging\ntimeout_ms: 3719\nretry_policy: exponential\npool_max: 44\nfeature_flags:\n  use_new_flow: false\nvalidation:\n  fail_on_missing_secrets: true\n"
+  }
+]

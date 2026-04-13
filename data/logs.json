@@ -1,0 +1,107 @@
+[
+  {
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected",
+    "id": "LOG-0001",
+    "service": "payments",
+    "text": "2025-01-02T00:00:00Z PROD payments ERROR LOG-0001: DeploymentError: notification scheduler missed due to clock skew detected\ntrace_id=6659174222126\ncontext={\"service\":\"payments\",\"env\":\"prod\",\"category\":\"deployment regression\"}\n"
+  },
+  {
+    "environment": "dev",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler",
+    "id": "LOG-0002",
+    "service": "auth",
+    "text": "2025-01-03T00:00:00Z DEV auth ERROR LOG-0002: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\ntrace_id=4378421044115\ncontext={\"service\":\"auth\",\"env\":\"dev\",\"category\":\"code defect\"}\n"
+  },
+  {
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401)",
+    "id": "LOG-0003",
+    "service": "billing",
+    "text": "2025-01-04T00:00:00Z STAGING billing ERROR LOG-0003: DependencyError: Elasticsearch client authentication failed (401)\ntrace_id=4957205459570\ncontext={\"service\":\"billing\",\"env\":\"staging\",\"category\":\"dependency\"}\n"
+  },
+  {
+    "environment": "staging",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler",
+    "id": "LOG-0004",
+    "service": "notifications",
+    "text": "2025-01-05T00:00:00Z STAGING notifications ERROR LOG-0004: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\ntrace_id=7689998039225\ncontext={\"service\":\"notifications\",\"env\":\"staging\",\"category\":\"code defect\"}\n"
+  },
+  {
+    "environment": "prod",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401)",
+    "id": "LOG-0005",
+    "service": "payments",
+    "text": "2025-01-06T00:00:00Z PROD payments ERROR LOG-0005: DependencyError: Elasticsearch client authentication failed (401)\ntrace_id=7778475061741\ncontext={\"service\":\"payments\",\"env\":\"prod\",\"category\":\"dependency\"}\n"
+  },
+  {
+    "environment": "dev",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected",
+    "id": "LOG-0006",
+    "service": "billing",
+    "text": "2025-01-07T00:00:00Z DEV billing ERROR LOG-0006: DeploymentError: notification scheduler missed due to clock skew detected\ntrace_id=1050225501858\ncontext={\"service\":\"billing\",\"env\":\"dev\",\"category\":\"deployment regression\"}\n"
+  },
+  {
+    "environment": "dev",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401)",
+    "id": "LOG-0007",
+    "service": "notifications",
+    "text": "2025-01-08T00:00:00Z DEV notifications ERROR LOG-0007: DependencyError: Elasticsearch client authentication failed (401)\ntrace_id=7841489012303\ncontext={\"service\":\"notifications\",\"env\":\"dev\",\"category\":\"dependency\"}\n"
+  },
+  {
+    "environment": "dev",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler",
+    "id": "LOG-0008",
+    "service": "payments",
+    "text": "2025-01-09T00:00:00Z DEV payments ERROR LOG-0008: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\ntrace_id=7663990338548\ncontext={\"service\":\"payments\",\"env\":\"dev\",\"category\":\"code defect\"}\n"
+  },
+  {
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected",
+    "id": "LOG-0009",
+    "service": "payments",
+    "text": "2025-01-10T00:00:00Z PROD payments ERROR LOG-0009: DeploymentError: notification scheduler missed due to clock skew detected\ntrace_id=6301033430755\ncontext={\"service\":\"payments\",\"env\":\"prod\",\"category\":\"deployment regression\"}\n"
+  },
+  {
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load",
+    "id": "LOG-0010",
+    "service": "auth",
+    "text": "2025-01-11T00:00:00Z STAGING auth ERROR LOG-0010: InfraError: database connection pool exhausted during peak load\ntrace_id=7254384931687\ncontext={\"service\":\"auth\",\"env\":\"staging\",\"category\":\"infra\"}\n"
+  },
+  {
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401)",
+    "id": "LOG-0011",
+    "service": "frontend",
+    "text": "2025-01-12T00:00:00Z STAGING frontend ERROR LOG-0011: DependencyError: Elasticsearch client authentication failed (401)\ntrace_id=3684140914680\ncontext={\"service\":\"frontend\",\"env\":\"staging\",\"category\":\"dependency\"}\n"
+  },
+  {
+    "environment": "prod",
+    "error_signature": "InfraError: database connection pool exhausted during peak load",
+    "id": "LOG-0012",
+    "service": "frontend",
+    "text": "2025-01-13T00:00:00Z PROD frontend ERROR LOG-0012: InfraError: database connection pool exhausted during peak load\ntrace_id=1762976172047\ncontext={\"service\":\"frontend\",\"env\":\"prod\",\"category\":\"infra\"}\n"
+  },
+  {
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected",
+    "id": "LOG-0013",
+    "service": "billing",
+    "text": "2025-01-14T00:00:00Z PROD billing ERROR LOG-0013: DeploymentError: notification scheduler missed due to clock skew detected\ntrace_id=1276150349384\ncontext={\"service\":\"billing\",\"env\":\"prod\",\"category\":\"deployment regression\"}\n"
+  },
+  {
+    "environment": "dev",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected",
+    "id": "LOG-0014",
+    "service": "payments",
+    "text": "2025-01-15T00:00:00Z DEV payments ERROR LOG-0014: DeploymentError: notification scheduler missed due to clock skew detected\ntrace_id=2417243800854\ncontext={\"service\":\"payments\",\"env\":\"dev\",\"category\":\"deployment regression\"}\n"
+  },
+  {
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler",
+    "id": "LOG-0015",
+    "service": "billing",
+    "text": "2025-01-16T00:00:00Z PROD billing ERROR LOG-0015: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\ntrace_id=1368171971569\ncontext={\"service\":\"billing\",\"env\":\"prod\",\"category\":\"code defect\"}\n"
+  }
+]

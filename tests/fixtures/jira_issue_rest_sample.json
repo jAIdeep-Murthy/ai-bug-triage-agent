@@ -1,0 +1,32 @@
+﻿{
+  "id": "10099",
+  "key": "BUG-99",
+  "fields": {
+    "summary": "Payments webhook signature verification failing in staging",
+    "description": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {"type": "text", "text": "After key rotation, webhook validation failures increased."}
+          ]
+        }
+      ]
+    },
+    "labels": ["service:payments", "env:staging", "bug", "webhook"],
+    "status": {"name": "In Progress"},
+    "priority": {"name": "High"},
+    "issuetype": {"name": "Bug"},
+    "assignee": {"displayName": "Payments Engineer"},
+    "reporter": {"displayName": "SRE Monitor"},
+    "attachment": [
+      {
+        "id": "att-99",
+        "filename": "payments-webhook.log",
+        "mimeType": "text/plain",
+        "size": 4096
+      }
+    ]
+  }
+}

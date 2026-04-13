@@ -1,0 +1,11 @@
+﻿{
+  "timestamp": 1712572800,
+  "webhookEvent": "jira:issue_updated",
+  "issue": {
+    "id": "10099",
+    "key": "BUG-99",
+    "fields": {
+      "summary": "Payments webhook signature verification failing in staging"
+    }
+  }
+}

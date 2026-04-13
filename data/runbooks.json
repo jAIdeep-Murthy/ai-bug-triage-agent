@@ -1,0 +1,262 @@
+[
+  {
+    "environment": "prod",
+    "id": "RB-0001",
+    "service": "frontend",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0001: Diagnose frontend issues in prod\nEnvironment: prod\nService: frontend\n\nCommon signals:\n- Look for error signatures: InfraError: database connection pool exhausted during peak load\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0001: Diagnose frontend issues in prod"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0002",
+    "service": "notifications",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0002: Diagnose notifications issues in prod\nEnvironment: prod\nService: notifications\n\nCommon signals:\n- Look for error signatures: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0002: Diagnose notifications issues in prod"
+  },
+  {
+    "environment": "dev",
+    "id": "RB-0003",
+    "service": "billing",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0003: Diagnose billing issues in dev\nEnvironment: dev\nService: billing\n\nCommon signals:\n- Look for error signatures: DependencyError: Elasticsearch client authentication failed (401)\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0003: Diagnose billing issues in dev"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0004",
+    "service": "search",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0004: Diagnose search issues in prod\nEnvironment: prod\nService: search\n\nCommon signals:\n- Look for error signatures: DependencyError: Elasticsearch client authentication failed (401)\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0004: Diagnose search issues in prod"
+  },
+  {
+    "environment": "staging",
+    "id": "RB-0005",
+    "service": "notifications",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0005: Diagnose notifications issues in staging\nEnvironment: staging\nService: notifications\n\nCommon signals:\n- Look for error signatures: InfraError: database connection pool exhausted during peak load\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0005: Diagnose notifications issues in staging"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0006",
+    "service": "payments",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0006: Diagnose payments issues in prod\nEnvironment: prod\nService: payments\n\nCommon signals:\n- Look for error signatures: DependencyError: Elasticsearch client authentication failed (401)\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0006: Diagnose payments issues in prod"
+  },
+  {
+    "environment": "staging",
+    "id": "RB-0007",
+    "service": "auth",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0007: Diagnose auth issues in staging\nEnvironment: staging\nService: auth\n\nCommon signals:\n- Look for error signatures: InfraError: database connection pool exhausted during peak load\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0007: Diagnose auth issues in staging"
+  },
+  {
+    "environment": "dev",
+    "id": "RB-0008",
+    "service": "search",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0008: Diagnose search issues in dev\nEnvironment: dev\nService: search\n\nCommon signals:\n- Look for error signatures: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0008: Diagnose search issues in dev"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0009",
+    "service": "billing",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0009: Diagnose billing issues in prod\nEnvironment: prod\nService: billing\n\nCommon signals:\n- Look for error signatures: DependencyError: Elasticsearch client authentication failed (401)\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0009: Diagnose billing issues in prod"
+  },
+  {
+    "environment": "staging",
+    "id": "RB-0010",
+    "service": "search",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0010: Diagnose search issues in staging\nEnvironment: staging\nService: search\n\nCommon signals:\n- Look for error signatures: InfraError: database connection pool exhausted during peak load\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0010: Diagnose search issues in staging"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0011",
+    "service": "notifications",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0011: Diagnose notifications issues in prod\nEnvironment: prod\nService: notifications\n\nCommon signals:\n- Look for error signatures: TimeoutError: upstream request timed out while fetching token claims\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0011: Diagnose notifications issues in prod"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0012",
+    "service": "notifications",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0012: Diagnose notifications issues in prod\nEnvironment: prod\nService: notifications\n\nCommon signals:\n- Look for error signatures: TimeoutError: upstream request timed out while fetching token claims\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0012: Diagnose notifications issues in prod"
+  },
+  {
+    "environment": "dev",
+    "id": "RB-0013",
+    "service": "search",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0013: Diagnose search issues in dev\nEnvironment: dev\nService: search\n\nCommon signals:\n- Look for error signatures: ConfigError: missing webhook secret for payment status updates\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0013: Diagnose search issues in dev"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0014",
+    "service": "notifications",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0014: Diagnose notifications issues in prod\nEnvironment: prod\nService: notifications\n\nCommon signals:\n- Look for error signatures: InfraError: database connection pool exhausted during peak load\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0014: Diagnose notifications issues in prod"
+  },
+  {
+    "environment": "staging",
+    "id": "RB-0015",
+    "service": "frontend",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0015: Diagnose frontend issues in staging\nEnvironment: staging\nService: frontend\n\nCommon signals:\n- Look for error signatures: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0015: Diagnose frontend issues in staging"
+  },
+  {
+    "environment": "dev",
+    "id": "RB-0016",
+    "service": "notifications",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0016: Diagnose notifications issues in dev\nEnvironment: dev\nService: notifications\n\nCommon signals:\n- Look for error signatures: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0016: Diagnose notifications issues in dev"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0017",
+    "service": "auth",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0017: Diagnose auth issues in prod\nEnvironment: prod\nService: auth\n\nCommon signals:\n- Look for error signatures: TypeError: Cannot read properties of undefined (reading 'status') in failure handler\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0017: Diagnose auth issues in prod"
+  },
+  {
+    "environment": "prod",
+    "id": "RB-0018",
+    "service": "frontend",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0018: Diagnose frontend issues in prod\nEnvironment: prod\nService: frontend\n\nCommon signals:\n- Look for error signatures: TimeoutError: upstream request timed out while fetching token claims\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0018: Diagnose frontend issues in prod"
+  },
+  {
+    "environment": "staging",
+    "id": "RB-0019",
+    "service": "auth",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0019: Diagnose auth issues in staging\nEnvironment: staging\nService: auth\n\nCommon signals:\n- Look for error signatures: InfraError: database connection pool exhausted during peak load\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0019: Diagnose auth issues in staging"
+  },
+  {
+    "environment": "dev",
+    "id": "RB-0020",
+    "service": "frontend",
+    "steps": [
+      "Check recent deploys and config diffs.",
+      "Verify environment variables and feature flags.",
+      "Collect failing request traces and relevant logs.",
+      "Apply targeted mitigation and confirm recovery."
+    ],
+    "text": "Runbook RB-0020: Diagnose frontend issues in dev\nEnvironment: dev\nService: frontend\n\nCommon signals:\n- Look for error signatures: InfraError: database connection pool exhausted during peak load\n- Verify service dependencies and timeouts.\n\nSuggested steps:\n1. Check recent deploys and config diffs.\n2. Verify environment variables and feature flags.\n3. Collect failing request traces and relevant logs.\n4. Apply targeted mitigation and confirm recovery.",
+    "title": "Runbook RB-0020: Diagnose frontend issues in dev"
+  }
+]

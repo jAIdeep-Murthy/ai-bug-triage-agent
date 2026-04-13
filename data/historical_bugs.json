@@ -1,0 +1,4069 @@
+[
+  {
+    "category": "runtime",
+    "created_at": "2025-01-02T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [timeouterror]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0013"
+      ],
+      "log_ids": [
+        "LOG-0001",
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0015",
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0001",
+    "labels": [
+      "component:auth",
+      "db:pool",
+      "dependency:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0001 in auth (dev) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [timeouterror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "auth: runtime failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-01-03T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [webhook]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0004"
+      ]
+    },
+    "id": "BUG-0002",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:payments",
+      "error:config",
+      "feature:webhooks",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0002 in payments (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [webhook]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "payments: dependency failure observed in dev"
+  },
+  {
+    "category": "duplicate",
+    "created_at": "2025-01-04T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [authentication]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0014"
+      ],
+      "runbook_ids": [
+        "RB-0003"
+      ]
+    },
+    "id": "BUG-0003",
+    "labels": [
+      "api:timeout",
+      "component:search",
+      "db:pool",
+      "dependency:auth",
+      "dependency:es-client",
+      "error:401"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0003 in search (prod) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [authentication]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "search: duplicate failure observed in prod"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-01-05T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [deploymenterror]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0009"
+      ],
+      "log_ids": [
+        "LOG-0003",
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0004",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:notifications",
+      "error:clock-skew",
+      "tls:ca-bundle",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "high",
+    "summary": "Incident BUG-0004 in notifications (dev) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [deploymenterror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: dependency failure observed in dev"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-01-06T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [failure]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0013",
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0003"
+      ]
+    },
+    "id": "BUG-0005",
+    "labels": [
+      "api:500",
+      "component:frontend",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0005 in frontend (dev) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [failure]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "frontend: code defect failure observed in dev"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-01-07T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [pool]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0004",
+        "LOG-0010"
+      ],
+      "runbook_ids": [
+        "RB-0018"
+      ]
+    },
+    "id": "BUG-0006",
+    "labels": [
+      "api:500",
+      "component:db",
+      "error:pool-exhausted",
+      "queue:scheduler",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "low",
+    "summary": "Incident BUG-0006 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [pool]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "billing: infra failure observed in staging"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-01-08T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [out]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0001"
+      ],
+      "log_ids": [
+        "LOG-0006",
+        "LOG-0014"
+      ],
+      "runbook_ids": [
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0007",
+    "labels": [
+      "bug:triage-mvp",
+      "component:auth",
+      "db:pool",
+      "error:timeout",
+      "feature:token-introspection",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0007 in auth (dev) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [out]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "auth: runtime failure observed in dev"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-01-09T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [configerror]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0001"
+      ],
+      "log_ids": [
+        "LOG-0001",
+        "LOG-0011"
+      ],
+      "runbook_ids": [
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0008",
+    "labels": [
+      "bug:triage-mvp",
+      "component:payments",
+      "db:pool",
+      "error:config",
+      "feature:webhooks",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "low",
+    "summary": "Incident BUG-0008 in payments (prod) failed with error signature: ConfigError: missing webhook secret for payment status updates [configerror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "payments: config failure observed in prod"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-01-10T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [failed]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0012",
+        "LOG-0006"
+      ],
+      "runbook_ids": [
+        "RB-0003"
+      ]
+    },
+    "id": "BUG-0009",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:search",
+      "dependency:es-client",
+      "error:401",
+      "ui:regression"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0009 in search (staging) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [failed]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "search: dependency failure observed in staging"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-01-11T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [due]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0010",
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0016",
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0010",
+    "labels": [
+      "api:timeout",
+      "component:notifications",
+      "dependency:auth",
+      "error:clock-skew",
+      "secret:missing",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0010 in notifications (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [due]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "notifications: deployment regression failure observed in prod"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-01-12T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [cannot]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0011",
+    "labels": [
+      "bug:triage-mvp",
+      "component:frontend",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler",
+      "ui:regression"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0011 in auth (prod) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [cannot]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "auth: code defect failure observed in prod"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-01-13T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [peak]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0013",
+        "RB-0003"
+      ]
+    },
+    "id": "BUG-0012",
+    "labels": [
+      "api:500",
+      "component:db",
+      "db:pool",
+      "dependency:auth",
+      "error:pool-exhausted",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0012 in billing (dev) failed with error signature: InfraError: database connection pool exhausted during peak load [peak]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "billing: infra failure observed in dev"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-01-14T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [out]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0015"
+      ],
+      "log_ids": [
+        "LOG-0005"
+      ],
+      "runbook_ids": [
+        "RB-0010",
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0013",
+    "labels": [
+      "api:timeout",
+      "component:auth",
+      "db:pool",
+      "error:timeout",
+      "feature:token-introspection",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0013 in auth (prod) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [out]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "auth: runtime failure observed in prod"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-01-15T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [for]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0014",
+    "labels": [
+      "component:payments",
+      "db:pool",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks",
+      "secret:missing"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0014 in payments (prod) failed with error signature: ConfigError: missing webhook secret for payment status updates [for]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "payments: config failure observed in prod"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-01-16T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [authentication]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0012",
+        "LOG-0005"
+      ],
+      "runbook_ids": [
+        "RB-0019"
+      ]
+    },
+    "id": "BUG-0015",
+    "labels": [
+      "api:500",
+      "component:search",
+      "db:pool",
+      "dependency:es-client",
+      "error:401",
+      "secret:missing"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0015 in search (staging) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [authentication]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "search: config failure observed in staging"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-01-17T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [scheduler]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0005"
+      ],
+      "runbook_ids": [
+        "RB-0013",
+        "RB-0020"
+      ]
+    },
+    "id": "BUG-0016",
+    "labels": [
+      "api:timeout",
+      "component:notifications",
+      "db:pool",
+      "error:clock-skew",
+      "secret:missing",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0016 in notifications (staging) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [scheduler]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "notifications: deployment regression failure observed in staging"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-01-18T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [failure]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0011"
+      ],
+      "log_ids": [
+        "LOG-0003",
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0017",
+    "labels": [
+      "api:timeout",
+      "component:frontend",
+      "error:typeerror",
+      "path:failure-handler",
+      "queue:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0017 in frontend (staging) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [failure]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "frontend: code defect failure observed in staging"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-01-19T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [exhausted]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0013",
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0018",
+    "labels": [
+      "bug:triage-mvp",
+      "component:db",
+      "error:pool-exhausted",
+      "queue:scheduler",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0018 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [exhausted]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "billing: infra failure observed in staging"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-01-20T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [timeouterror]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0013",
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0019"
+      ]
+    },
+    "id": "BUG-0019",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:auth",
+      "db:pool",
+      "error:timeout",
+      "feature:token-introspection"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0019 in auth (dev) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [timeouterror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "auth: runtime failure observed in dev"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-01-21T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [payment]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0015"
+      ],
+      "log_ids": [
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0002"
+      ]
+    },
+    "id": "BUG-0020",
+    "labels": [
+      "component:payments",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks",
+      "tls:ca-bundle",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0020 in payments (staging) failed with error signature: ConfigError: missing webhook secret for payment status updates [payment]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "payments: config failure observed in staging"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-01-22T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [failed]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0013"
+      ],
+      "log_ids": [
+        "LOG-0005",
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0021",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:search",
+      "dependency:es-client",
+      "error:401",
+      "ui:regression"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0021 in search (prod) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [failed]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "search: dependency failure observed in prod"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-01-23T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [missed]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0001"
+      ],
+      "log_ids": [
+        "LOG-0013"
+      ],
+      "runbook_ids": [
+        "RB-0013",
+        "RB-0004"
+      ]
+    },
+    "id": "BUG-0022",
+    "labels": [
+      "api:500",
+      "component:notifications",
+      "error:clock-skew",
+      "queue:scheduler",
+      "secret:missing",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0022 in notifications (staging) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [missed]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "notifications: deployment regression failure observed in staging"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-01-24T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [handler]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0011"
+      ],
+      "runbook_ids": [
+        "RB-0015",
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0023",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:frontend",
+      "error:typeerror",
+      "path:failure-handler",
+      "secret:missing"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0023 in frontend (staging) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [handler]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "frontend: code defect failure observed in staging"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-01-25T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [exhausted]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0007"
+      ],
+      "log_ids": [
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0018",
+        "RB-0015"
+      ]
+    },
+    "id": "BUG-0024",
+    "labels": [
+      "component:db",
+      "db:pool",
+      "error:pool-exhausted",
+      "queue:scheduler",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "notifications",
+    "severity": "high",
+    "summary": "Incident BUG-0024 in notifications (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [exhausted]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "notifications: infra failure observed in staging"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-01-26T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [while]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0002",
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0006",
+        "RB-0015"
+      ]
+    },
+    "id": "BUG-0025",
+    "labels": [
+      "component:auth",
+      "db:pool",
+      "error:timeout",
+      "feature:token-introspection",
+      "queue:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0025 in auth (dev) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [while]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "auth: dependency failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-01-27T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [status]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0011"
+      ],
+      "runbook_ids": [
+        "RB-0004",
+        "RB-0002"
+      ]
+    },
+    "id": "BUG-0026",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:payments",
+      "error:config",
+      "feature:webhooks"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0026 in payments (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [status]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "payments: dependency failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-01-28T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [failed]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0009"
+      ],
+      "log_ids": [
+        "LOG-0006",
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0017",
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0027",
+    "labels": [
+      "bug:triage-mvp",
+      "component:search",
+      "dependency:es-client",
+      "error:401",
+      "queue:scheduler",
+      "secret:missing"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0027 in search (staging) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [failed]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "search: dependency failure observed in staging"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-01-29T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [due]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0003",
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0028",
+    "labels": [
+      "api:timeout",
+      "component:notifications",
+      "error:clock-skew",
+      "queue:scheduler",
+      "type:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0028 in notifications (dev) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [due]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: deployment regression failure observed in dev"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-01-30T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [handler]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0007"
+      ],
+      "log_ids": [
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0017",
+        "RB-0014"
+      ]
+    },
+    "id": "BUG-0029",
+    "labels": [
+      "api:500",
+      "component:frontend",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler",
+      "queue:scheduler"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0029 in frontend (prod) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [handler]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "frontend: code defect failure observed in prod"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-01-31T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [exhausted]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0015"
+      ],
+      "log_ids": [
+        "LOG-0014",
+        "LOG-0015"
+      ],
+      "runbook_ids": [
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0030",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:db",
+      "error:pool-exhausted",
+      "secret:missing",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0030 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [exhausted]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "billing: infra failure observed in staging"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-02-01T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [claims]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0008"
+      ],
+      "log_ids": [
+        "LOG-0005"
+      ],
+      "runbook_ids": [
+        "RB-0012",
+        "RB-0002"
+      ]
+    },
+    "id": "BUG-0031",
+    "labels": [
+      "api:timeout",
+      "component:auth",
+      "dependency:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0031 in auth (staging) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [claims]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "auth: runtime failure observed in staging"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-02-02T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [status]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0014",
+        "LOG-0006"
+      ],
+      "runbook_ids": [
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0032",
+    "labels": [
+      "bug:triage-mvp",
+      "component:payments",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "low",
+    "summary": "Incident BUG-0032 in payments (staging) failed with error signature: ConfigError: missing webhook secret for payment status updates [status]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "payments: infra failure observed in staging"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-02-03T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [401]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0019",
+        "RB-0014"
+      ]
+    },
+    "id": "BUG-0033",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:search",
+      "db:pool",
+      "dependency:es-client",
+      "error:401"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0033 in search (dev) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [401]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "search: dependency failure observed in dev"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-02-04T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [deploymenterror]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0010",
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0034",
+    "labels": [
+      "api:timeout",
+      "component:notifications",
+      "db:pool",
+      "error:clock-skew",
+      "type:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "payments",
+    "severity": "medium",
+    "summary": "Incident BUG-0034 in payments (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [deploymenterror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "payments: code defect failure observed in prod"
+  },
+  {
+    "category": "insufficient info",
+    "created_at": "2025-02-05T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [properties]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0007"
+      ],
+      "log_ids": [
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0007",
+        "RB-0018"
+      ]
+    },
+    "id": "BUG-0035",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:frontend",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0035 in frontend (prod) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [properties]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "frontend: insufficient info failure observed in prod"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-02-06T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [during]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0007",
+        "LOG-0014"
+      ],
+      "runbook_ids": [
+        "RB-0010"
+      ]
+    },
+    "id": "BUG-0036",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:db",
+      "error:pool-exhausted",
+      "secret:missing",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0036 in frontend (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [during]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "frontend: infra failure observed in staging"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-02-07T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [request]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0006",
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0010",
+        "RB-0014"
+      ]
+    },
+    "id": "BUG-0037",
+    "labels": [
+      "api:500",
+      "component:auth",
+      "db:pool",
+      "error:timeout",
+      "feature:token-introspection",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0037 in auth (staging) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [request]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "auth: runtime failure observed in staging"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-02-08T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [payment]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0007"
+      ],
+      "log_ids": [
+        "LOG-0014"
+      ],
+      "runbook_ids": [
+        "RB-0008"
+      ]
+    },
+    "id": "BUG-0038",
+    "labels": [
+      "bug:triage-mvp",
+      "component:payments",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0038 in payments (staging) failed with error signature: ConfigError: missing webhook secret for payment status updates [payment]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "payments: config failure observed in staging"
+  },
+  {
+    "category": "duplicate",
+    "created_at": "2025-02-09T00:00:00Z",
+    "duplicate_of": "BUG-0036",
+    "environment": "dev",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [client]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0013"
+      ],
+      "log_ids": [
+        "LOG-0006"
+      ],
+      "runbook_ids": [
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0039",
+    "labels": [
+      "api:500",
+      "component:search",
+      "dependency:es-client",
+      "error:401",
+      "queue:scheduler",
+      "secret:missing"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "frontend",
+    "severity": "medium",
+    "summary": "Incident BUG-0039 in frontend (dev) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [client]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "frontend: duplicate failure observed in dev"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-02-10T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [due]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0014"
+      ],
+      "log_ids": [
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0009",
+        "RB-0017"
+      ]
+    },
+    "id": "BUG-0040",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:notifications",
+      "error:clock-skew",
+      "queue:scheduler",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0040 in notifications (dev) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [due]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: deployment regression failure observed in dev"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-02-11T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [cannot]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0009"
+      ],
+      "log_ids": [
+        "LOG-0012",
+        "LOG-0006"
+      ],
+      "runbook_ids": [
+        "RB-0014",
+        "RB-0008"
+      ]
+    },
+    "id": "BUG-0041",
+    "labels": [
+      "api:500",
+      "component:frontend",
+      "db:pool",
+      "error:typeerror",
+      "path:failure-handler",
+      "ui:regression"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "low",
+    "summary": "Incident BUG-0041 in frontend (staging) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [cannot]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "frontend: code defect failure observed in staging"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-02-12T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [database]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0015",
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0003",
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0042",
+    "labels": [
+      "api:500",
+      "component:db",
+      "dependency:auth",
+      "error:pool-exhausted",
+      "secret:missing",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0042 in billing (dev) failed with error signature: InfraError: database connection pool exhausted during peak load [database]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "billing: infra failure observed in dev"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-02-13T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [upstream]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0010"
+      ],
+      "runbook_ids": [
+        "RB-0018"
+      ]
+    },
+    "id": "BUG-0043",
+    "labels": [
+      "api:timeout",
+      "component:auth",
+      "db:pool",
+      "dependency:auth",
+      "error:timeout",
+      "feature:token-introspection"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0043 in auth (dev) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [upstream]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "auth: runtime failure observed in dev"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-02-14T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [missing]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0011"
+      ],
+      "runbook_ids": [
+        "RB-0015",
+        "RB-0003"
+      ]
+    },
+    "id": "BUG-0044",
+    "labels": [
+      "component:payments",
+      "db:pool",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks",
+      "secret:missing"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0044 in payments (prod) failed with error signature: ConfigError: missing webhook secret for payment status updates [missing]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "payments: config failure observed in prod"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-02-15T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [dependencyerror]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0004"
+      ],
+      "log_ids": [
+        "LOG-0014",
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0007"
+      ]
+    },
+    "id": "BUG-0045",
+    "labels": [
+      "bug:triage-mvp",
+      "component:search",
+      "dependency:es-client",
+      "error:401",
+      "secret:missing",
+      "ui:regression"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0045 in search (staging) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [dependencyerror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "search: dependency failure observed in staging"
+  },
+  {
+    "category": "OS mismatch",
+    "created_at": "2025-02-16T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [clock]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0001"
+      ],
+      "log_ids": [
+        "LOG-0014"
+      ],
+      "runbook_ids": [
+        "RB-0014",
+        "RB-0016"
+      ]
+    },
+    "id": "BUG-0046",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:notifications",
+      "error:clock-skew",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0046 in notifications (staging) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [clock]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: OS mismatch failure observed in staging"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-02-17T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [in]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0013"
+      ],
+      "log_ids": [
+        "LOG-0004",
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0008"
+      ]
+    },
+    "id": "BUG-0047",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:frontend",
+      "error:typeerror",
+      "path:failure-handler",
+      "queue:scheduler"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0047 in frontend (dev) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [in]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "frontend: code defect failure observed in dev"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-02-18T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [peak]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0013"
+      ],
+      "log_ids": [
+        "LOG-0011",
+        "LOG-0002"
+      ],
+      "runbook_ids": [
+        "RB-0011",
+        "RB-0004"
+      ]
+    },
+    "id": "BUG-0048",
+    "labels": [
+      "component:db",
+      "db:pool",
+      "error:pool-exhausted",
+      "queue:scheduler",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "low",
+    "summary": "Incident BUG-0048 in billing (prod) failed with error signature: InfraError: database connection pool exhausted during peak load [peak]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "billing: infra failure observed in prod"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-02-19T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [timed]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0007"
+      ]
+    },
+    "id": "BUG-0049",
+    "labels": [
+      "api:timeout",
+      "component:auth",
+      "dependency:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "queue:scheduler"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "notifications",
+    "severity": "high",
+    "summary": "Incident BUG-0049 in notifications (prod) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [timed]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "notifications: runtime failure observed in prod"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-02-20T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [secret]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0018",
+        "RB-0016"
+      ]
+    },
+    "id": "BUG-0050",
+    "labels": [
+      "api:500",
+      "component:payments",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "notifications",
+    "severity": "high",
+    "summary": "Incident BUG-0050 in notifications (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [secret]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "notifications: config failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-02-21T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [dependencyerror]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0015",
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0002",
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0051",
+    "labels": [
+      "component:search",
+      "db:pool",
+      "dependency:es-client",
+      "error:401",
+      "secret:missing",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0051 in search (prod) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [dependencyerror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "search: dependency failure observed in prod"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-02-22T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [scheduler]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0052",
+    "labels": [
+      "component:notifications",
+      "dependency:auth",
+      "error:clock-skew",
+      "queue:scheduler",
+      "type:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0052 in notifications (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [scheduler]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "notifications: deployment regression failure observed in prod"
+  },
+  {
+    "category": "insufficient info",
+    "created_at": "2025-02-23T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [undefined]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0013",
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0020"
+      ]
+    },
+    "id": "BUG-0053",
+    "labels": [
+      "api:500",
+      "component:frontend",
+      "error:typeerror",
+      "path:failure-handler",
+      "queue:scheduler",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "medium",
+    "summary": "Incident BUG-0053 in frontend (prod) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [undefined]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "frontend: insufficient info failure observed in prod"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-02-24T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [during]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0003",
+        "LOG-0011"
+      ],
+      "runbook_ids": [
+        "RB-0007",
+        "RB-0010"
+      ]
+    },
+    "id": "BUG-0054",
+    "labels": [
+      "api:500",
+      "component:db",
+      "db:pool",
+      "error:pool-exhausted",
+      "secret:missing",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0054 in payments (prod) failed with error signature: InfraError: database connection pool exhausted during peak load [during]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "payments: infra failure observed in prod"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-02-25T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [out]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0004"
+      ],
+      "log_ids": [
+        "LOG-0004",
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0055",
+    "labels": [
+      "api:500",
+      "component:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "secret:missing",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0055 in auth (prod) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [out]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "auth: runtime failure observed in prod"
+  },
+  {
+    "category": "OS mismatch",
+    "created_at": "2025-02-26T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [updates]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0015",
+        "LOG-0013"
+      ],
+      "runbook_ids": [
+        "RB-0001"
+      ]
+    },
+    "id": "BUG-0056",
+    "labels": [
+      "component:payments",
+      "error:config",
+      "feature:webhooks",
+      "queue:scheduler",
+      "tls:ca-bundle",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0056 in payments (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [updates]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "payments: OS mismatch failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-02-27T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [failed]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0006",
+        "LOG-0005"
+      ],
+      "runbook_ids": [
+        "RB-0010",
+        "RB-0020"
+      ]
+    },
+    "id": "BUG-0057",
+    "labels": [
+      "bug:triage-mvp",
+      "component:search",
+      "db:pool",
+      "dependency:es-client",
+      "error:401",
+      "queue:scheduler"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0057 in notifications (dev) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [failed]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "notifications: dependency failure observed in dev"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-02-28T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [scheduler]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0058",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:notifications",
+      "error:clock-skew",
+      "type:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0058 in notifications (staging) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [scheduler]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "notifications: deployment regression failure observed in staging"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-03-01T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [read]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0012",
+        "LOG-0006"
+      ],
+      "runbook_ids": [
+        "RB-0010"
+      ]
+    },
+    "id": "BUG-0059",
+    "labels": [
+      "bug:triage-mvp",
+      "component:frontend",
+      "error:typeerror",
+      "path:failure-handler",
+      "queue:scheduler",
+      "secret:missing"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "notifications",
+    "severity": "high",
+    "summary": "Incident BUG-0059 in notifications (prod) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [read]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "notifications: code defect failure observed in prod"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-03-02T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [exhausted]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0005"
+      ],
+      "log_ids": [
+        "LOG-0011"
+      ],
+      "runbook_ids": [
+        "RB-0005",
+        "RB-0008"
+      ]
+    },
+    "id": "BUG-0060",
+    "labels": [
+      "api:timeout",
+      "component:db",
+      "dependency:auth",
+      "error:pool-exhausted",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0060 in billing (dev) failed with error signature: InfraError: database connection pool exhausted during peak load [exhausted]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "billing: infra failure observed in dev"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-03-03T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [timeouterror]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0011"
+      ],
+      "runbook_ids": [
+        "RB-0005",
+        "RB-0015"
+      ]
+    },
+    "id": "BUG-0061",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:auth",
+      "error:timeout",
+      "feature:token-introspection"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0061 in auth (dev) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [timeouterror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "auth: code defect failure observed in dev"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-03-04T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [webhook]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0013"
+      ],
+      "log_ids": [
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0009",
+        "RB-0018"
+      ]
+    },
+    "id": "BUG-0062",
+    "labels": [
+      "api:timeout",
+      "component:payments",
+      "error:config",
+      "feature:webhooks",
+      "queue:scheduler",
+      "secret:missing"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "medium",
+    "summary": "Incident BUG-0062 in payments (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [webhook]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "payments: config failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-03-05T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [client]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0007",
+        "LOG-0002"
+      ],
+      "runbook_ids": [
+        "RB-0001",
+        "RB-0009"
+      ]
+    },
+    "id": "BUG-0063",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:search",
+      "dependency:es-client",
+      "error:401",
+      "ui:regression"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "low",
+    "summary": "Incident BUG-0063 in search (prod) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [client]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "search: dependency failure observed in prod"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-03-06T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [to]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0009",
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0015"
+      ]
+    },
+    "id": "BUG-0064",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:notifications",
+      "db:pool",
+      "error:clock-skew",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0064 in notifications (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [to]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "notifications: deployment regression failure observed in prod"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-03-07T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [read]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0013"
+      ],
+      "runbook_ids": [
+        "RB-0009"
+      ]
+    },
+    "id": "BUG-0065",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:frontend",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0065 in frontend (prod) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [read]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "frontend: code defect failure observed in prod"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-03-08T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [pool]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0002"
+      ],
+      "runbook_ids": [
+        "RB-0006"
+      ]
+    },
+    "id": "BUG-0066",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:db",
+      "error:pool-exhausted",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0066 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [pool]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "billing: infra failure observed in staging"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-03-09T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [timed]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0007",
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0014"
+      ]
+    },
+    "id": "BUG-0067",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "secret:missing"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0067 in auth (staging) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [timed]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "auth: runtime failure observed in staging"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-03-10T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [payment]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0003"
+      ],
+      "log_ids": [
+        "LOG-0009",
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0009"
+      ]
+    },
+    "id": "BUG-0068",
+    "labels": [
+      "bug:triage-mvp",
+      "component:payments",
+      "error:config",
+      "feature:webhooks",
+      "tls:ca-bundle",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0068 in auth (prod) failed with error signature: ConfigError: missing webhook secret for payment status updates [payment]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "auth: config failure observed in prod"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-03-11T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [authentication]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0010",
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0069",
+    "labels": [
+      "component:search",
+      "dependency:auth",
+      "dependency:es-client",
+      "error:401",
+      "tls:ca-bundle",
+      "ui:regression"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0069 in notifications (prod) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [authentication]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "notifications: dependency failure observed in prod"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-03-12T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [detected]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0009",
+        "RB-0007"
+      ]
+    },
+    "id": "BUG-0070",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:notifications",
+      "db:pool",
+      "error:clock-skew",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0070 in notifications (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [detected]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: deployment regression failure observed in prod"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-03-13T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [undefined]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0009"
+      ],
+      "log_ids": [
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0011",
+        "RB-0019"
+      ]
+    },
+    "id": "BUG-0071",
+    "labels": [
+      "bug:triage-mvp",
+      "component:frontend",
+      "error:typeerror",
+      "path:failure-handler",
+      "secret:missing",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0071 in frontend (dev) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [undefined]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "frontend: config failure observed in dev"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-03-14T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [exhausted]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0009",
+        "LOG-0015"
+      ],
+      "runbook_ids": [
+        "RB-0010"
+      ]
+    },
+    "id": "BUG-0072",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:db",
+      "dependency:auth",
+      "error:pool-exhausted",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0072 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [exhausted]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "billing: infra failure observed in staging"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-03-15T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [out]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0006",
+        "LOG-0013"
+      ],
+      "runbook_ids": [
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0073",
+    "labels": [
+      "bug:triage-mvp",
+      "component:auth",
+      "dependency:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "secret:missing"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0073 in frontend (staging) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [out]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "frontend: dependency failure observed in staging"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-03-16T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [payment]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0009",
+        "RB-0010"
+      ]
+    },
+    "id": "BUG-0074",
+    "labels": [
+      "api:timeout",
+      "component:payments",
+      "error:config",
+      "feature:webhooks",
+      "tls:ca-bundle",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0074 in payments (staging) failed with error signature: ConfigError: missing webhook secret for payment status updates [payment]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "payments: config failure observed in staging"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-03-17T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [401]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0012"
+      ],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0012",
+        "RB-0015"
+      ]
+    },
+    "id": "BUG-0075",
+    "labels": [
+      "component:search",
+      "dependency:auth",
+      "dependency:es-client",
+      "error:401",
+      "secret:missing",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0075 in search (prod) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [401]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "search: dependency failure observed in prod"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-03-18T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [to]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0009"
+      ],
+      "log_ids": [
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0013",
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0076",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:notifications",
+      "error:clock-skew",
+      "tls:ca-bundle",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0076 in notifications (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [to]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "notifications: deployment regression failure observed in prod"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-03-19T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [properties]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0002"
+      ],
+      "log_ids": [
+        "LOG-0007",
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0012",
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0077",
+    "labels": [
+      "bug:triage-mvp",
+      "component:frontend",
+      "db:pool",
+      "error:typeerror",
+      "path:failure-handler",
+      "queue:scheduler"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0077 in frontend (staging) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [properties]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "frontend: code defect failure observed in staging"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-03-20T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [infraerror]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0005"
+      ],
+      "log_ids": [
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0001"
+      ]
+    },
+    "id": "BUG-0078",
+    "labels": [
+      "api:500",
+      "component:db",
+      "db:pool",
+      "error:pool-exhausted",
+      "tls:ca-bundle",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0078 in billing (prod) failed with error signature: InfraError: database connection pool exhausted during peak load [infraerror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "billing: infra failure observed in prod"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-03-21T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [token]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0011",
+        "RB-0010"
+      ]
+    },
+    "id": "BUG-0079",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "search",
+    "severity": "low",
+    "summary": "Incident BUG-0079 in search (dev) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [token]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "search: runtime failure observed in dev"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-03-22T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [for]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0016",
+        "RB-0003"
+      ]
+    },
+    "id": "BUG-0080",
+    "labels": [
+      "component:payments",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks",
+      "tls:ca-bundle",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "low",
+    "summary": "Incident BUG-0080 in payments (staging) failed with error signature: ConfigError: missing webhook secret for payment status updates [for]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "payments: config failure observed in staging"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-03-23T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [401]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0006",
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0016",
+        "RB-0009"
+      ]
+    },
+    "id": "BUG-0081",
+    "labels": [
+      "api:timeout",
+      "component:search",
+      "db:pool",
+      "dependency:es-client",
+      "error:401",
+      "secret:missing"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "high",
+    "summary": "Incident BUG-0081 in search (staging) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [401]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "search: dependency failure observed in staging"
+  },
+  {
+    "category": "duplicate",
+    "created_at": "2025-03-24T00:00:00Z",
+    "duplicate_of": "BUG-0079",
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [notification]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0013"
+      ],
+      "runbook_ids": [
+        "RB-0013"
+      ]
+    },
+    "id": "BUG-0082",
+    "labels": [
+      "component:notifications",
+      "db:pool",
+      "error:clock-skew",
+      "tls:ca-bundle",
+      "type:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0082 in notifications (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [notification]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: duplicate failure observed in prod"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-03-25T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [handler]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0015"
+      ],
+      "runbook_ids": [
+        "RB-0009",
+        "RB-0010"
+      ]
+    },
+    "id": "BUG-0083",
+    "labels": [
+      "api:timeout",
+      "component:frontend",
+      "db:pool",
+      "error:typeerror",
+      "path:failure-handler",
+      "secret:missing"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0083 in frontend (staging) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [handler]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "frontend: code defect failure observed in staging"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-03-26T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [during]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0002",
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0003"
+      ]
+    },
+    "id": "BUG-0084",
+    "labels": [
+      "api:timeout",
+      "component:db",
+      "error:pool-exhausted",
+      "tls:ca-bundle",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "low",
+    "summary": "Incident BUG-0084 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [during]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "billing: infra failure observed in staging"
+  },
+  {
+    "category": "insufficient info",
+    "created_at": "2025-03-27T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [request]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0004"
+      ]
+    },
+    "id": "BUG-0085",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "ui:regression"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "medium",
+    "summary": "Incident BUG-0085 in auth (staging) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [request]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "auth: insufficient info failure observed in staging"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-03-28T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [missing]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0010",
+        "LOG-0013"
+      ],
+      "runbook_ids": [
+        "RB-0015",
+        "RB-0002"
+      ]
+    },
+    "id": "BUG-0086",
+    "labels": [
+      "api:timeout",
+      "component:payments",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "notifications",
+    "severity": "high",
+    "summary": "Incident BUG-0086 in notifications (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [missing]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "notifications: config failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-03-29T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [elasticsearch]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0011"
+      ],
+      "log_ids": [
+        "LOG-0007",
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0017"
+      ]
+    },
+    "id": "BUG-0087",
+    "labels": [
+      "bug:triage-mvp",
+      "component:search",
+      "dependency:auth",
+      "dependency:es-client",
+      "error:401",
+      "ui:regression"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0087 in search (staging) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [elasticsearch]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "search: dependency failure observed in staging"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-03-30T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [scheduler]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0011"
+      ],
+      "log_ids": [
+        "LOG-0013",
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0016"
+      ]
+    },
+    "id": "BUG-0088",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:notifications",
+      "dependency:auth",
+      "error:clock-skew",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "payments",
+    "severity": "medium",
+    "summary": "Incident BUG-0088 in payments (staging) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [scheduler]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "payments: deployment regression failure observed in staging"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-03-31T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [cannot]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0002"
+      ],
+      "runbook_ids": [
+        "RB-0004",
+        "RB-0016"
+      ]
+    },
+    "id": "BUG-0089",
+    "labels": [
+      "api:timeout",
+      "component:frontend",
+      "db:pool",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0089 in frontend (prod) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [cannot]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "frontend: code defect failure observed in prod"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-04-01T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [connection]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0002",
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0020"
+      ]
+    },
+    "id": "BUG-0090",
+    "labels": [
+      "component:db",
+      "error:pool-exhausted",
+      "queue:scheduler",
+      "secret:missing",
+      "tls:ca-bundle",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0090 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [connection]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "billing: infra failure observed in staging"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-04-02T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [fetching]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0091",
+    "labels": [
+      "bug:triage-mvp",
+      "component:auth",
+      "db:pool",
+      "error:timeout",
+      "feature:token-introspection",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0091 in auth (staging) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [fetching]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "auth: runtime failure observed in staging"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-04-03T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [secret]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0001"
+      ]
+    },
+    "id": "BUG-0092",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:payments",
+      "dependency:auth",
+      "error:config",
+      "feature:webhooks"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0092 in payments (staging) failed with error signature: ConfigError: missing webhook secret for payment status updates [secret]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "payments: config failure observed in staging"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-04-04T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [elasticsearch]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0013"
+      ],
+      "runbook_ids": [
+        "RB-0006",
+        "RB-0008"
+      ]
+    },
+    "id": "BUG-0093",
+    "labels": [
+      "component:search",
+      "db:pool",
+      "dependency:auth",
+      "dependency:es-client",
+      "error:401",
+      "secret:missing"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0093 in search (dev) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [elasticsearch]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "search: dependency failure observed in dev"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-04-05T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [notification]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0003"
+      ],
+      "log_ids": [
+        "LOG-0006",
+        "LOG-0010"
+      ],
+      "runbook_ids": [
+        "RB-0001",
+        "RB-0014"
+      ]
+    },
+    "id": "BUG-0094",
+    "labels": [
+      "component:notifications",
+      "error:clock-skew",
+      "queue:scheduler",
+      "secret:missing",
+      "tls:ca-bundle",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0094 in notifications (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [notification]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "notifications: deployment regression failure observed in prod"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-04-06T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [failure]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0003",
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0018",
+        "RB-0001"
+      ]
+    },
+    "id": "BUG-0095",
+    "labels": [
+      "component:frontend",
+      "db:pool",
+      "error:typeerror",
+      "path:failure-handler",
+      "queue:scheduler",
+      "secret:missing"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0095 in frontend (prod) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [failure]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "frontend: code defect failure observed in prod"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-04-07T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [exhausted]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0007"
+      ],
+      "log_ids": [
+        "LOG-0010",
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0010",
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0096",
+    "labels": [
+      "bug:triage-mvp",
+      "component:db",
+      "error:pool-exhausted",
+      "queue:scheduler",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "low",
+    "summary": "Incident BUG-0096 in billing (dev) failed with error signature: InfraError: database connection pool exhausted during peak load [exhausted]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "billing: infra failure observed in dev"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-04-08T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [token]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0012"
+      ],
+      "log_ids": [
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0014",
+        "RB-0012"
+      ]
+    },
+    "id": "BUG-0097",
+    "labels": [
+      "api:500",
+      "component:auth",
+      "db:pool",
+      "error:timeout",
+      "feature:token-introspection",
+      "ui:regression"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0097 in auth (dev) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [token]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "auth: runtime failure observed in dev"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-04-09T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [webhook]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0006"
+      ]
+    },
+    "id": "BUG-0098",
+    "labels": [
+      "component:payments",
+      "error:config",
+      "feature:webhooks",
+      "secret:missing",
+      "tls:ca-bundle",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0098 in payments (staging) failed with error signature: ConfigError: missing webhook secret for payment status updates [webhook]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "payments: config failure observed in staging"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-04-10T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [401]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0009"
+      ],
+      "log_ids": [
+        "LOG-0009",
+        "LOG-0005"
+      ],
+      "runbook_ids": [
+        "RB-0005",
+        "RB-0004"
+      ]
+    },
+    "id": "BUG-0099",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:search",
+      "dependency:es-client",
+      "error:401",
+      "secret:missing"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0099 in search (staging) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [401]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "search: dependency failure observed in staging"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-04-11T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [to]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0002"
+      ],
+      "runbook_ids": [
+        "RB-0019"
+      ]
+    },
+    "id": "BUG-0100",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:notifications",
+      "dependency:auth",
+      "error:clock-skew",
+      "type:scheduler"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0100 in notifications (prod) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [to]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: deployment regression failure observed in prod"
+  },
+  {
+    "category": "OS mismatch",
+    "created_at": "2025-04-12T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [cannot]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0002",
+        "LOG-0004"
+      ],
+      "runbook_ids": [
+        "RB-0002"
+      ]
+    },
+    "id": "BUG-0101",
+    "labels": [
+      "component:frontend",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler",
+      "secret:missing",
+      "ui:regression"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "low",
+    "summary": "Incident BUG-0101 in frontend (staging) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [cannot]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "frontend: OS mismatch failure observed in staging"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-04-13T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [exhausted]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0003"
+      ],
+      "log_ids": [
+        "LOG-0002"
+      ],
+      "runbook_ids": [
+        "RB-0020"
+      ]
+    },
+    "id": "BUG-0102",
+    "labels": [
+      "bug:triage-mvp",
+      "component:db",
+      "error:pool-exhausted",
+      "secret:missing",
+      "tls:ca-bundle",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "notifications",
+    "severity": "high",
+    "summary": "Incident BUG-0102 in notifications (dev) failed with error signature: InfraError: database connection pool exhausted during peak load [exhausted]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: infra failure observed in dev"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-04-14T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [claims]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0004"
+      ],
+      "log_ids": [
+        "LOG-0002"
+      ],
+      "runbook_ids": [
+        "RB-0017",
+        "RB-0018"
+      ]
+    },
+    "id": "BUG-0103",
+    "labels": [
+      "api:timeout",
+      "component:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "secret:missing",
+      "ui:regression"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0103 in auth (staging) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [claims]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Frontend Systems",
+    "title": "auth: runtime failure observed in staging"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-04-15T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [secret]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0011",
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0019"
+      ]
+    },
+    "id": "BUG-0104",
+    "labels": [
+      "bug:triage-mvp",
+      "component:payments",
+      "error:config",
+      "feature:webhooks",
+      "tls:ca-bundle",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0104 in payments (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [secret]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "payments: config failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-04-16T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [elasticsearch]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0010"
+      ],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0019",
+        "RB-0015"
+      ]
+    },
+    "id": "BUG-0105",
+    "labels": [
+      "bug:triage-mvp",
+      "component:search",
+      "db:pool",
+      "dependency:auth",
+      "dependency:es-client",
+      "error:401"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "billing",
+    "severity": "medium",
+    "summary": "Incident BUG-0105 in billing (dev) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [elasticsearch]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "billing: dependency failure observed in dev"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-04-17T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [clock]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0014"
+      ],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0020",
+        "RB-0004"
+      ]
+    },
+    "id": "BUG-0106",
+    "labels": [
+      "component:notifications",
+      "error:clock-skew",
+      "queue:scheduler",
+      "secret:missing",
+      "type:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0106 in notifications (staging) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [clock]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "notifications: deployment regression failure observed in staging"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-04-18T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [failure]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0002"
+      ],
+      "runbook_ids": [
+        "RB-0011"
+      ]
+    },
+    "id": "BUG-0107",
+    "labels": [
+      "component:frontend",
+      "db:pool",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler",
+      "queue:scheduler"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0107 in frontend (dev) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [failure]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "frontend: code defect failure observed in dev"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-04-19T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [exhausted]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0015"
+      ],
+      "runbook_ids": [
+        "RB-0007"
+      ]
+    },
+    "id": "BUG-0108",
+    "labels": [
+      "api:500",
+      "component:db",
+      "error:pool-exhausted",
+      "tls:ca-bundle",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0108 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [exhausted]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "billing: runtime failure observed in staging"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-04-20T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [timeouterror]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0001"
+      ]
+    },
+    "id": "BUG-0109",
+    "labels": [
+      "api:500",
+      "bug:triage-mvp",
+      "component:auth",
+      "db:pool",
+      "error:timeout",
+      "feature:token-introspection"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "auth",
+    "severity": "high",
+    "summary": "Incident BUG-0109 in auth (prod) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [timeouterror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "auth: runtime failure observed in prod"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-04-21T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [payment]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0005"
+      ],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0009"
+      ]
+    },
+    "id": "BUG-0110",
+    "labels": [
+      "api:timeout",
+      "bug:triage-mvp",
+      "component:payments",
+      "error:config",
+      "feature:webhooks",
+      "queue:scheduler"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "medium",
+    "summary": "Incident BUG-0110 in payments (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [payment]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "payments: config failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-04-22T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [client]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0002"
+      ],
+      "log_ids": [
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0003"
+      ]
+    },
+    "id": "BUG-0111",
+    "labels": [
+      "component:search",
+      "db:pool",
+      "dependency:auth",
+      "dependency:es-client",
+      "error:401",
+      "queue:scheduler"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0111 in search (prod) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [client]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "search: dependency failure observed in prod"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-04-23T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [notification]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0010"
+      ]
+    },
+    "id": "BUG-0112",
+    "labels": [
+      "component:notifications",
+      "db:pool",
+      "error:clock-skew",
+      "queue:scheduler",
+      "type:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0112 in notifications (staging) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [notification]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Platform Security",
+    "title": "notifications: deployment regression failure observed in staging"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-04-24T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [typeerror]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0011"
+      ],
+      "log_ids": [
+        "LOG-0004",
+        "LOG-0005"
+      ],
+      "runbook_ids": [
+        "RB-0010",
+        "RB-0017"
+      ]
+    },
+    "id": "BUG-0113",
+    "labels": [
+      "api:500",
+      "api:timeout",
+      "component:frontend",
+      "error:typeerror",
+      "path:failure-handler",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0113 in frontend (dev) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [typeerror]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Search Relevance",
+    "title": "frontend: infra failure observed in dev"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-04-25T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [peak]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0009"
+      ],
+      "log_ids": [
+        "LOG-0011",
+        "LOG-0007"
+      ],
+      "runbook_ids": [
+        "RB-0006",
+        "RB-0002"
+      ]
+    },
+    "id": "BUG-0114",
+    "labels": [
+      "bug:triage-mvp",
+      "component:db",
+      "db:pool",
+      "dependency:auth",
+      "error:pool-exhausted",
+      "type:load"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0114 in billing (dev) failed with error signature: InfraError: database connection pool exhausted during peak load [peak]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "billing: infra failure observed in dev"
+  },
+  {
+    "category": "runtime",
+    "created_at": "2025-04-26T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "prod",
+    "error_signature": "TimeoutError: upstream request timed out while fetching token claims [fetching]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0014"
+      ],
+      "log_ids": [
+        "LOG-0001"
+      ],
+      "runbook_ids": [
+        "RB-0005"
+      ]
+    },
+    "id": "BUG-0115",
+    "labels": [
+      "bug:triage-mvp",
+      "component:auth",
+      "dependency:auth",
+      "error:timeout",
+      "feature:token-introspection",
+      "tls:ca-bundle"
+    ],
+    "resolution": "Increase upstream timeout for token introspection and add a circuit breaker for repeated timeouts.",
+    "root_cause": "Auth service experienced upstream latency and did not apply a longer timeout for token introspection.",
+    "service": "notifications",
+    "severity": "high",
+    "summary": "Incident BUG-0115 in notifications (prod) failed with error signature: TimeoutError: upstream request timed out while fetching token claims [fetching]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Notifications Team",
+    "title": "notifications: runtime failure observed in prod"
+  },
+  {
+    "category": "config",
+    "created_at": "2025-04-27T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "ConfigError: missing webhook secret for payment status updates [status]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0004"
+      ],
+      "log_ids": [
+        "LOG-0005",
+        "LOG-0003"
+      ],
+      "runbook_ids": [
+        "RB-0019"
+      ]
+    },
+    "id": "BUG-0116",
+    "labels": [
+      "component:payments",
+      "db:pool",
+      "error:config",
+      "feature:webhooks",
+      "queue:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Update webhook secret in staging and add configuration validation at startup.",
+    "root_cause": "Webhook secret rotated but environment configuration was not updated in staging.",
+    "service": "payments",
+    "severity": "high",
+    "summary": "Incident BUG-0116 in payments (dev) failed with error signature: ConfigError: missing webhook secret for payment status updates [status]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "payments: config failure observed in dev"
+  },
+  {
+    "category": "dependency",
+    "created_at": "2025-04-28T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "DependencyError: Elasticsearch client authentication failed (401) [authentication]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0008",
+        "LOG-0012"
+      ],
+      "runbook_ids": [
+        "RB-0018",
+        "RB-0006"
+      ]
+    },
+    "id": "BUG-0117",
+    "labels": [
+      "component:search",
+      "dependency:es-client",
+      "error:401",
+      "queue:scheduler",
+      "secret:missing",
+      "ui:regression"
+    ],
+    "resolution": "Refresh CA bundle and pin compatible client version for the search cluster.",
+    "root_cause": "TLS settings changed and the client library began requiring an updated CA bundle.",
+    "service": "search",
+    "severity": "medium",
+    "summary": "Incident BUG-0117 in search (dev) failed with error signature: DependencyError: Elasticsearch client authentication failed (401) [authentication]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Identity Team",
+    "title": "search: dependency failure observed in dev"
+  },
+  {
+    "category": "deployment regression",
+    "created_at": "2025-04-29T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "DeploymentError: notification scheduler missed due to clock skew detected [skew]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0012",
+        "LOG-0009"
+      ],
+      "runbook_ids": [
+        "RB-0002"
+      ]
+    },
+    "id": "BUG-0118",
+    "labels": [
+      "bug:triage-mvp",
+      "component:notifications",
+      "error:clock-skew",
+      "tls:ca-bundle",
+      "type:scheduler",
+      "ui:regression"
+    ],
+    "resolution": "Enable NTP enforcement and add job rescheduling when clock skew exceeds threshold.",
+    "root_cause": "Node time drift caused scheduled jobs to be skipped after deployment.",
+    "service": "notifications",
+    "severity": "medium",
+    "summary": "Incident BUG-0118 in notifications (staging) failed with error signature: DeploymentError: notification scheduler missed due to clock skew detected [skew]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "notifications: deployment regression failure observed in staging"
+  },
+  {
+    "category": "code defect",
+    "created_at": "2025-04-30T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "dev",
+    "error_signature": "TypeError: Cannot read properties of undefined (reading 'status') in failure handler [handler]",
+    "evidence": {
+      "config_ids": [
+        "CFG-0011"
+      ],
+      "log_ids": [
+        "LOG-0008"
+      ],
+      "runbook_ids": [
+        "RB-0010",
+        "RB-0016"
+      ]
+    },
+    "id": "BUG-0119",
+    "labels": [
+      "bug:triage-mvp",
+      "component:frontend",
+      "db:pool",
+      "dependency:auth",
+      "error:typeerror",
+      "path:failure-handler"
+    ],
+    "resolution": "Harden response parsing and add unit tests for error response variants.",
+    "root_cause": "Frontend failure handler assumed a response body shape that changed for 5xx errors.",
+    "service": "frontend",
+    "severity": "high",
+    "summary": "Incident BUG-0119 in frontend (dev) failed with error signature: TypeError: Cannot read properties of undefined (reading 'status') in failure handler [handler]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "SRE",
+    "title": "frontend: code defect failure observed in dev"
+  },
+  {
+    "category": "infra",
+    "created_at": "2025-05-01T00:00:00Z",
+    "duplicate_of": null,
+    "environment": "staging",
+    "error_signature": "InfraError: database connection pool exhausted during peak load [database]",
+    "evidence": {
+      "config_ids": [],
+      "log_ids": [
+        "LOG-0006"
+      ],
+      "runbook_ids": [
+        "RB-0016"
+      ]
+    },
+    "id": "BUG-0120",
+    "labels": [
+      "bug:triage-mvp",
+      "component:db",
+      "error:pool-exhausted",
+      "queue:scheduler",
+      "type:load",
+      "ui:regression"
+    ],
+    "resolution": "Tune pool sizes and add backpressure; verify with load tests.",
+    "root_cause": "Connection pool max size was too low after increased traffic.",
+    "service": "billing",
+    "severity": "high",
+    "summary": "Incident BUG-0120 in billing (staging) failed with error signature: InfraError: database connection pool exhausted during peak load [database]. Observed symptoms triggered automated alerts and manual triage.",
+    "team": "Payments Core",
+    "title": "billing: infra failure observed in staging"
+  }
+]
