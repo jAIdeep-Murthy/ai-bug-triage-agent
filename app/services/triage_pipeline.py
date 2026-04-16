@@ -8,6 +8,7 @@ import httpx
 from pydantic import ValidationError
 
 from app.agents.orchestrator import AnalysisOrchestrator
+from app.agents.model_client import OllamaConnectionError
 from app.integrations.jira_client import JiraClient
 from app.retrieval.keyword_retrieval import KeywordRetrievalEngine
 from app.schemas.analysis import AnalysisRunResult
@@ -77,7 +78,9 @@ class TriagePipeline:
         try:
             run_result = self.orchestrator.run(normalized, retrieval)
         except (ValidationError, json.JSONDecodeError, ValueError) as exc:
-            raise AnalysisExecutionError("Model output could not be validated.") from exc
+            raise AnalysisExecutionError(f"Model output could not be validated: {exc}") from exc
+        except OllamaConnectionError as exc:
+            raise AnalysisExecutionError(str(exc)) from exc
         except httpx.TimeoutException as exc:
             raise AnalysisExecutionError("Timed out while waiting for model response.") from exc
         except httpx.HTTPError as exc:

@@ -189,6 +189,52 @@ Data is fully synthetic and deterministic for reproducible demos.
 - Run all tests:
   - `py -m pytest`
 
+## Upgrade 1: Live Ollama verification
+
+```bash
+# 1. Confirm Ollama is running and model is available
+ollama list
+
+# 2. Start the backend
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+# 3. Health check — confirm demo_mode: false and ollama_status: "ok"
+curl http://127.0.0.1:8000/health
+
+# 4. Run a real analysis
+curl http://127.0.0.1:8000/issues/BUG-001/analyze
+
+# 5. Run existing test suite (must still be 33 passing)
+pytest --ignore=tests/test_ollama_live.py -v
+
+# 6. Run live end-to-end smoke test (requires ollama serve)
+pytest tests/test_ollama_live.py -v -m live
+```
+
+## Upgrade 2: Real bug dataset
+
+The synthetic seed data has been replaced with real Eclipse JDT bug
+reports from the logpai/bughub open-source dataset.
+
+### Load the real data (run once after pulling this upgrade)
+
+```bash
+# Install new dependency
+pip install pandas
+
+# Download and load real data (takes ~10 seconds)
+python scripts/load_real_data.py
+
+# Verify the data loaded correctly
+python scripts/verify_data.py
+```
+
+### Dataset
+- Source: logpai/bughub (Eclipse JDT, MIT-compatible)
+- Records: 500 real resolved bug reports
+- Fields: title, description, component, severity, resolution, owner team
+- These replace 120 synthetic records
+
 ## Limitations (current MVP)
 
 - No authentication/authorization layer.
