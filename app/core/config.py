@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     # hardcoded analysis (useful for local demos / offline development).
     demo_mode: bool = False
 
+    vector_search_enabled: bool = True
+    chroma_db_path: str = "data/chroma_db"
+
     database_url: str = "sqlite:///./data/bug_triage.db"
 
     @property

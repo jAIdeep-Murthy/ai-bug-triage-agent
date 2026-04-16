@@ -235,6 +235,32 @@ python scripts/verify_data.py
 - Fields: title, description, component, severity, resolution, owner team
 - These replace 120 synthetic records
 
+## Upgrade 3: Semantic vector search
+
+Retrieval now uses semantic similarity (sentence-transformers +
+ChromaDB) in addition to keyword matching. The LLM receives both
+keyword-matched and semantically-similar historical bugs as context.
+
+### Setup (run once after Upgrade 2)
+
+```bash
+# Install new dependencies
+pip install chromadb sentence-transformers
+
+# Build the vector index (~2 minutes, downloads model on first run)
+python scripts/build_vector_index.py
+
+# Verify the index
+python scripts/verify_vector_index.py
+```
+
+### How it works
+- Keyword retrieval runs first (unchanged)
+- Vector search runs in parallel using all-MiniLM-L6-v2 embeddings
+- Results are merged and deduplicated
+- If vector search fails for any reason, keyword retrieval is used alone
+- Set VECTOR_SEARCH_ENABLED=false in .env to disable vector search
+
 ## Limitations (current MVP)
 
 - No authentication/authorization layer.

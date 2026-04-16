@@ -10,3 +10,5 @@ __pycache__/
 *.pyc
 data/*.csv
 data/eclipse_jdt.csv
+data/chroma_db/
+data/chroma_db
