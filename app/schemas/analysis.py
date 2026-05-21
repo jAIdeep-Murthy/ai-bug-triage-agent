@@ -20,7 +20,7 @@ AnalysisCategory = Literal[
     "insufficient info",
 ]
 
-SeverityLevel = Literal["low", "medium", "high"]
+SeverityLevel = Literal["low", "medium", "high", "critical"]
 
 
 class AnalysisResult(BaseModel):

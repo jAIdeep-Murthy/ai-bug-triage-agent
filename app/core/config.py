@@ -32,8 +32,11 @@ class Settings(BaseSettings):
     # hardcoded analysis (useful for local demos / offline development).
     demo_mode: bool = False
 
+    # Retrieval settings
     vector_search_enabled: bool = True
     chroma_db_path: str = "data/chroma_db"
+    duplicate_similarity_threshold: float = 0.9
+    feedback_boost_factor: float = 0.3
 
     database_url: str = "sqlite:///./data/bug_triage.db"
 

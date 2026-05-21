@@ -8,7 +8,7 @@ import streamlit as st
 
 
 BACKEND_BASE_URL = os.getenv("BACKEND_BASE_URL", "http://127.0.0.1:8000")
-HTTP_TIMEOUT_SECONDS = 20.0
+HTTP_TIMEOUT_SECONDS = 300.0
 
 
 def _api_get(path: str) -> tuple[int, dict[str, Any] | str]:
@@ -42,7 +42,7 @@ def _render_health() -> None:
     code, body = _api_get("/health")
     if code == 200 and isinstance(body, dict):
         st.success(
-            f"Backend online | jira_mode={body.get('jira_mode')} | model={body.get('model_name')}"
+            f"Backend online | jira_mode={body.get('jira_mode')} | model={body.get('model_name')} | demo_mode={body.get('demo_mode')} | ollama={body.get('ollama_status')}"
         )
     elif code == 0:
         st.warning("Backend offline. Start backend and refresh.")
@@ -129,7 +129,6 @@ def _render_analyze_panel() -> None:
             history = st.session_state.setdefault("history_issue_ids", [])
             if issue_id.strip() not in history:
                 history.append(issue_id.strip())
-            _render_analysis_result(body, draft_key="jira_draft_analyze")
         elif code in (502, 504) and isinstance(body, dict):
             st.error(f"Analysis failed: {body.get('detail', 'Backend integration error.')}")
         elif code == 0:
@@ -164,14 +163,21 @@ def _render_past_analyses() -> None:
             wrapped = {"analysis": body.get("analysis", {})}
             st.session_state["current_issue_id"] = selected
             st.session_state["current_analysis_response"] = wrapped
-            _render_analysis_result(wrapped, draft_key="jira_draft_report")
+            st.session_state["past_report_warning"] = None
+            st.session_state["past_report_error"] = None
         elif code == 404:
-            st.warning("No persisted report found for that issue yet.")
+            st.session_state["past_report_warning"] = "No persisted report found for that issue yet."
         elif code == 0:
-            st.error("Backend is offline or unreachable.")
+            st.session_state["past_report_error"] = "Backend is offline or unreachable."
         else:
             detail = body.get("detail") if isinstance(body, dict) else str(body)
-            st.error(f"Report request failed ({code}): {detail}")
+            st.session_state["past_report_error"] = f"Report request failed ({code}): {detail}"
+
+    # Always render from session state so messages persist
+    if st.session_state.get("past_report_warning"):
+        st.warning(st.session_state["past_report_warning"])
+    if st.session_state.get("past_report_error"):
+        st.error(st.session_state["past_report_error"])
 
 
 def _render_feedback_panel() -> None:
@@ -207,6 +213,106 @@ def _render_feedback_panel() -> None:
             st.error(f"Feedback request failed ({code}): {detail}")
 
 
+def _render_duplicate_detection() -> None:
+    st.subheader("Duplicate Check")
+    issue_id = st.text_input(
+        "Jira issue ID for duplicate check",
+        value="",
+        placeholder="e.g., BUG-123",
+        key="dup_issue_id_input",
+    )
+    if st.button("Check Duplicates", use_container_width=True, key="check_dups_button"):
+        if not issue_id.strip():
+            st.error("Please enter an issue ID.")
+        else:
+            with st.spinner("Checking..."):
+                code, body = _api_get(f"/issues/{issue_id.strip()}/duplicates")
+            if code == 200 and isinstance(body, dict):
+                st.session_state["dup_result"] = body
+                st.session_state["dup_error"] = None
+            else:
+                detail = body.get("detail") if isinstance(body, dict) else str(body)
+                st.session_state["dup_result"] = None
+                st.session_state["dup_error"] = f"Failed ({code}): {detail}"
+
+    # Always render from session state so it persists across re-renders
+    dup_result = st.session_state.get("dup_result")
+    dup_error = st.session_state.get("dup_error")
+    if dup_result is not None:
+        st.write(f"**Issue Key:** {dup_result.get('issue_key')}")
+        st.write(f"**Is Likely Duplicate:** {dup_result.get('is_likely_duplicate')}")
+        st.write(f"**Primary Duplicate Key:** {dup_result.get('primary_duplicate_key')}")
+        cands = dup_result.get('candidates', [])
+        if cands:
+            st.write("**Candidates:**")
+            for c in cands:
+                st.markdown(f"- {c.get('issue_key')} (score: {c.get('similarity_score'):.2f})")
+        else:
+            st.write("No candidates found above threshold.")
+    elif dup_error:
+        st.error(dup_error)
+
+
+def _render_webhook_test() -> None:
+    st.subheader("Webhook Test")
+    payload = st.text_area(
+        "Webhook JSON payload",
+        value='{"payload": {"issue": {"key": "BUG-10001"}, "webhookEvent": "jira:issue_created"}}',
+        height=150,
+        key="webhook_payload_input"
+    )
+    if st.button("Send Webhook", use_container_width=True, key="send_webhook_button"):
+        import json
+        try:
+            parsed = json.loads(payload)
+        except json.JSONDecodeError:
+            st.error("Invalid JSON payload.")
+            return
+        with st.spinner("Sending..."):
+            code, body = _api_post("/webhooks/jira", parsed)
+        if code in (200, 202) and isinstance(body, dict):
+            st.success(f"Success: {body}")
+        else:
+            detail = body.get("detail") if isinstance(body, dict) else str(body)
+            st.error(f"Failed ({code}): {detail}")
+
+
+def _render_post_comment_panel() -> None:
+    st.subheader("Post Jira Comment")
+    current_id = st.session_state.get("current_issue_id", "")
+    issue_id = st.text_input(
+        "Jira issue ID to post comment",
+        value=current_id,
+        placeholder="e.g., BUG-123",
+        key="post_comment_issue_id_input",
+    )
+    if st.button("Post Comment", use_container_width=True, key="post_comment_button"):
+        if not issue_id.strip():
+            st.error("Please enter an issue ID.")
+        else:
+            with st.spinner("Posting comment..."):
+                code, body = _api_post(f"/issues/{issue_id.strip()}/comment", {})
+            if code == 200 and isinstance(body, dict):
+                st.session_state["post_comment_result"] = body
+                st.session_state["post_comment_error"] = None
+            else:
+                detail = body.get("detail") if isinstance(body, dict) else str(body)
+                st.session_state["post_comment_result"] = None
+                st.session_state["post_comment_error"] = f"Failed ({code}): {detail}"
+
+    res = st.session_state.get("post_comment_result")
+    err = st.session_state.get("post_comment_error")
+    if res is not None:
+        st.success("Comment action completed.")
+        st.write(f"**Issue ID:** `{res.get('issue_id')}`")
+        st.write(f"**Comment Posted:** `{res.get('comment_posted')}`")
+        st.write(f"**Mode:** `{res.get('mode')}`")
+        if res.get("comment_id"):
+            st.write(f"**Comment ID:** `{res.get('comment_id')}`")
+    elif err:
+        st.error(err)
+
+
 def main() -> None:
     st.set_page_config(page_title="AI Bug Triage Dashboard", layout="wide")
     st.title("AI Bug Triage and Resolution Dashboard")
@@ -222,11 +328,18 @@ def main() -> None:
     with left:
         _render_analyze_panel()
         st.divider()
+        _render_duplicate_detection()
+        st.divider()
         _render_past_analyses()
     with right:
         _render_feedback_panel()
+        st.divider()
+        _render_post_comment_panel()
+        st.divider()
+        _render_webhook_test()
 
 
 if __name__ == "__main__":
     main()
+
 

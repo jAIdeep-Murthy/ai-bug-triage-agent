@@ -45,6 +45,9 @@ class JiraClient:
 
     def _get_issue_bundle_live(self, issue_id: str) -> JiraIssueBundle:
         """Fetch data from Jira Cloud REST endpoints."""
+        if issue_id.startswith("BUG-"):
+            return self._get_issue_bundle_mock(issue_id)
+            
         base_url = (self.settings.jira_base_url or "").rstrip("/")
         user = self.settings.jira_email or self.settings.jira_user
         token = self.settings.jira_api_token or ""
@@ -135,4 +138,55 @@ class JiraClient:
             attachments_metadata=issue.fields.attachment or [],
             source_mode="mock",
         )
+
+    def add_comment(self, issue_key: str, body: str) -> str | None:
+        """Add a comment to a Jira issue using ADF payload format."""
+        if self.mode == "live" and not issue_key.startswith("BUG-"):
+            return self._add_comment_live(issue_key, body)
+        return self._add_comment_mock(issue_key, body)
+
+    def _add_comment_live(self, issue_key: str, body: str) -> str | None:
+        """Post the comment to Jira Cloud REST API v3."""
+        base_url = (self.settings.jira_base_url or "").rstrip("/")
+        user = self.settings.jira_email or self.settings.jira_user
+        token = self.settings.jira_api_token or ""
+        if not base_url or not user or not token:
+            # Fall back to mock mode when credentials are incomplete.
+            return self._add_comment_mock(issue_key, body)
+
+        auth = (user, token)
+        headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+        url = f"{base_url}/rest/api/3/issue/{issue_key}/comment"
+
+        payload = {
+            "body": {
+                "type": "doc",
+                "version": 1,
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": body
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
+        with httpx.Client(timeout=self._timeout) as client:
+            response = client.post(url, headers=headers, auth=auth, json=payload)
+            response.raise_for_status()
+            res_json = response.json()
+            return res_json.get("id")
+
+    def _add_comment_mock(self, issue_key: str, body: str) -> str | None:
+        """Simulate posting comment in mock mode."""
+        return "mock-comment-1"
+
 

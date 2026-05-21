@@ -34,10 +34,12 @@ class AnalysisStore:
         return record.id
 
     def get_latest_by_issue(self, issue_id: str) -> AnalysisRecord | None:
+        from sqlalchemy import or_
         stmt = (
             select(AnalysisRecord)
-            .where(AnalysisRecord.issue_id == issue_id)
+            .where(or_(AnalysisRecord.issue_id == issue_id, AnalysisRecord.issue_key == issue_id))
             .order_by(AnalysisRecord.created_at.desc(), AnalysisRecord.id.desc())
         )
         return self.db.execute(stmt).scalars().first()
+
 

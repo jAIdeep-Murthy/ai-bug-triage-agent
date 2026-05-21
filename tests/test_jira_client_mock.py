@@ -1,10 +1,12 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from app.integrations.jira_client import JiraClient
 
+from app.core.config import Settings
+
 
 def test_jira_client_uses_mock_mode_without_live_env() -> None:
-    client = JiraClient()
+    client = JiraClient(settings=Settings(jira_base_url="", jira_email="", jira_api_token=""))
     assert client.mode == "mock"
 
     bundle = client.get_issue_bundle("BUG-123")

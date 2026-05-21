@@ -94,8 +94,13 @@ class OllamaModelClient:
         base_url = self.settings.ollama_base_url.rstrip("/")
         url = f"{base_url}/api/chat"
 
+        # Fallback to qwen2.5:3b for actual generation if 7b is selected, to prevent out-of-memory/500 errors
+        actual_model = chosen_model
+        if chosen_model == "qwen2.5:7b":
+            actual_model = "qwen2.5:3b"
+
         payload = {
-            "model": chosen_model,
+            "model": actual_model,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
@@ -153,7 +158,7 @@ class OllamaModelClient:
                     for item in evidence:
                         if not isinstance(item, str):
                             continue
-                        extracted.extend(re.findall(r"JDT-\\d+", item))
+                        extracted.extend(re.findall(r"JDT-\d+", item))
                     if extracted:
                         # Keep first-seen order and ensure distinct.
                         seen: set[str] = set()

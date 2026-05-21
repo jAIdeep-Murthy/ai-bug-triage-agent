@@ -12,3 +12,11 @@ data/*.csv
 data/eclipse_jdt.csv
 data/chroma_db/
 data/chroma_db
+
+# Local Dev / Probe Scripts
+jira_create_issue.py
+jira_probe.py
+probe_ollama.py
+qa_full.py
+qa_script.py
+webhook_payload.json

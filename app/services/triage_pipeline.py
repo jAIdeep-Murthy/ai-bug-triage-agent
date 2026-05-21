@@ -146,6 +146,24 @@ class TriagePipeline:
                     exc,
                 )
 
+        # Apply feedback-driven scoring adjustment (Upgrade 6)
+        try:
+            from app.services.feedback_store import FeedbackStore
+            from app.services.retrieval_scorer import apply_feedback_scores
+
+            f_store = FeedbackStore(self.analysis_store.db)
+            cand_keys = [c.id for c in retrieval.candidates]
+            multipliers = f_store.get_multipliers_for_keys(cand_keys)
+            
+            adjusted = apply_feedback_scores(retrieval.candidates, multipliers)
+            retrieval.candidates = adjusted
+        except Exception as exc:
+            import logging
+            logging.getLogger(__name__).warning(
+                "Feedback scoring adjustment failed, falling back to unweighted: %s",
+                exc,
+            )
+
         try:
             run_result = self.orchestrator.run(normalized, retrieval)
         except (ValidationError, json.JSONDecodeError, ValueError) as exc:
